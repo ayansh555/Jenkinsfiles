@@ -20,7 +20,7 @@ pipeline {
         stage('SonarQube Scan') {
             steps {
                 withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'Sonartoken') {
-                    sh 'mvn sonar:mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
+                    sh 'mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
                 }
             }
         }
@@ -37,19 +37,19 @@ pipeline {
             emailext(
                 subject: "✅ Jenkins Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
-Hello Ayansh,
-
-Your Jenkins build completed successfully ✅
-
-Job Name  : ${env.JOB_NAME}
-Build No  : ${env.BUILD_NUMBER}
-Build URL : ${env.BUILD_URL}
-
-Maven build and package completed successfully.
-
-Regards,
-Jenkins
-""",
+                        Hello Ayansh,
+                        
+                        Your Jenkins build completed successfully ✅
+                        
+                        Job Name  : ${env.JOB_NAME}
+                        Build No  : ${env.BUILD_NUMBER}
+                        Build URL : ${env.BUILD_URL}
+                        
+                        Maven build and package completed successfully.
+                        
+                        Regards,
+                        Jenkins
+                        """,
                 to: "ayanshkaran188@gmail.com"
             )
         }
@@ -58,19 +58,19 @@ Jenkins
             emailext(
                 subject: "❌ Jenkins Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
-Hello Ayansh,
-
-Your Jenkins build has FAILED ❌
-
-Job Name  : ${env.JOB_NAME}
-Build No  : ${env.BUILD_NUMBER}
-Build URL : ${env.BUILD_URL}
-
-Please check Jenkins console output for details.
-
-Regards,
-Jenkins
-""",
+                        Hello Ayansh,
+                        
+                        Your Jenkins build has FAILED ❌
+                        
+                        Job Name  : ${env.JOB_NAME}
+                        Build No  : ${env.BUILD_NUMBER}
+                        Build URL : ${env.BUILD_URL}
+                        
+                        Please check Jenkins console output for details.
+                        
+                        Regards,
+                        Jenkins
+                        """,
                 to: "ayanshkaran188@gmail.com"
             )
         }
