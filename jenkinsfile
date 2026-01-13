@@ -20,7 +20,7 @@ pipeline {
         stage('SonarQube Scan') {
             steps {
                 withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'Sonartoken') {
-                    sh 'mvn sonar:sonar'
+                    sh 'mvn sonar:mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
                 }
             }
         }
