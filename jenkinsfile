@@ -1,6 +1,13 @@
 pipeline {
     agent any
 
+   environment {
+        APP_NAME = "spring-petclinic"
+        ENV = "dev"
+        SONAR_PROJECT_KEY = "${APP_NAME}-${ENV}"
+    }
+
+
     stages {
 
         stage('Git Checkout') {
