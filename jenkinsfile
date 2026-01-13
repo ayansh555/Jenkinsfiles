@@ -1,12 +1,17 @@
 pipeline {
     agent any
 
-   environment {
-        APP_NAME = "spring-petclinic"
-        ENV = "dev"
-        SONAR_PROJECT_KEY = "${APP_NAME}-${ENV}"
+ parameters {
+        string(name: 'GIT_BRANCH', defaultValue: 'main', description: 'Git branch to build')
+        choice(name: 'RUN_SONAR', choices: ['yes', 'no'], description: 'Run SonarQube scan')
+        choice(name: 'RUN_TESTS', choices: ['yes', 'no'], description: 'Run Maven tests')
     }
 
+    environment {
+        SONAR_SERVER = 'sonarqube'
+        SONAR_URL = 'http://13.203.69.22:9000'
+        EMAIL_TO = 'ayanshkaran188@gmail.com'
+    }
 
     stages {
 
