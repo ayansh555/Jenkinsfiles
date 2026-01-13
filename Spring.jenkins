@@ -1,0 +1,78 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main',
+                    credentialsId: '97ef8178-99be-4e06-b7f6-0c48ea23c967',
+                    url: 'https://github.com/ayansh555/spring.git'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('SonarQube Scan') {
+            steps {
+                withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'Sonartoken') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+    }
+
+    post {
+        success {
+            emailext(
+                subject: "✅ Jenkins Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+Hello Ayansh,
+
+Your Jenkins build completed successfully ✅
+
+Job Name  : ${env.JOB_NAME}
+Build No  : ${env.BUILD_NUMBER}
+Build URL : ${env.BUILD_URL}
+
+Maven build and package completed successfully.
+
+Regards,
+Jenkins
+""",
+                to: "ayanshkaran188@gmail.com"
+            )
+        }
+
+        failure {
+            emailext(
+                subject: "❌ Jenkins Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+Hello Ayansh,
+
+Your Jenkins build has FAILED ❌
+
+Job Name  : ${env.JOB_NAME}
+Build No  : ${env.BUILD_NUMBER}
+Build URL : ${env.BUILD_URL}
+
+Please check Jenkins console output for details.
+
+Regards,
+Jenkins
+""",
+                to: "ayanshkaran188@gmail.com"
+            )
+        }
+    }
+}
