@@ -18,7 +18,7 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 git branch: 'main',
-                    credentialsId: '97ef8178-99be-4e06-b7f6-0c48ea23c967',
+                    credentialsId: 'git',
                     url: 'https://github.com/ayansh555/spring.git'
             }
         }
