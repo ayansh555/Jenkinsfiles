@@ -17,9 +17,7 @@ pipeline {
 
         stage('Git Checkout') {
             steps {
-                git branch: 'main',
-                    credentialsId: 'Git',
-                    url: 'https://github.com/ayansh555/spring.git'
+              git branch: 'main', credentialsId: 'tokgit', url: 'https://github.com/ayansh555/spring'
             }
         }
 
